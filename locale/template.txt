@@ -21,3 +21,6 @@ No swimming upwards=
 Fall damage: @1%=
 Fall damage: +@1%=
 No fall damage=
+Digs @1 blocks=
+Digs @1 blocks instantly=
+Minimum dig time: @1s=

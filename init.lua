@@ -87,7 +87,7 @@ local function append_descs()
 							mintime = get_min_digtime(caps)
 							if mintime and mintime > 0 then
 								d = S("Digs @1 blocks", group) .. "\n"
-								d = d .. S("Minimum dig time: @1", string.format(S("%.2fs"), mintime))
+								d = d .. S("Minimum dig time: @1s", string.format("%.2f", mintime))
 								digs = digs .. "\n" .. d
 							elseif mintime and mintime == 0 then
 								d = S("Digs @1 blocks instantly", group)
