@@ -17,8 +17,11 @@ Once this mod had overwritten the `description` field of an item was overwritten
 
 Register a custom snippet function.
 `func` is a function of the form `func(itemstring)`.
-It will be called for (nearly) every itemstring and it must return a string you want to append to this item or `nil` if nothing shall be appended.
-You can optionally return the text color in `"#RRGGBB"` format as the second return value.
+It will be called for (nearly) every itemstring.
+
+Returns: Two values, the first one is required.
+1st return value: A string you want to append to this item or `nil` if nothing shall be appended.
+2nd return value: If nil, `tt` will take of the text color. If a ColorString in `"#RRGGBB"` format, entire text is colorized in this color. Return `false` to force `tt` to not apply text any colorization (useful if you want to call `minetest.colorize` yourself.
 
 Example:
 
