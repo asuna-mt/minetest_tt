@@ -52,6 +52,10 @@ end
 
 local function get_min_digtime(caps)
 	local mintime
+	local unique = true
+	if caps.maxlevel and caps.maxlevel > 1 then
+		unique = false
+	end
 	if caps.times then
 		for r=1,3 do
 			local time = caps.times[r]
@@ -59,11 +63,14 @@ local function get_min_digtime(caps)
 				time = time / caps.maxlevel
 			end
 			if (not mintime) or (time and time < mintime) then
+				if time and mintime and (time < mintime) then
+					unique = false
+				end
 				mintime = time
 			end
 		end
 	end
-	return mintime
+	return mintime, unique
 end
 
 local function append_descs()
@@ -82,10 +89,10 @@ local function append_descs()
 				local d
 				if def.tool_capabilities.groupcaps then
 					for group, caps in pairs(def.tool_capabilities.groupcaps) do
-						local mintime
+						local mintim, unique_mintime
 						if caps.times then
-							mintime = get_min_digtime(caps)
-							if mintime and mintime > 0 then
+							mintime, unique_mintime = get_min_digtime(caps)
+							if mintime and (mintime > 0 and (not unique_mintime)) then
 								d = S("Digs @1 blocks", group) .. "\n"
 								d = d .. S("Minimum dig time: @1s", string.format("%.2f", mintime))
 								digs = digs .. "\n" .. d
