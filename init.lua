@@ -6,50 +6,6 @@ local COLOR_GOOD = "#00ff00"
 tt = {}
 tt.registered_snippets = {}
 
-local function descriptive_dig_speed(time, group)
-	if time <= 0 then
-		return S("Digs @1 instantly", group)
-	elseif time <= 0.35 then
-		return S("Digs @1 insanely fast", group)
-	elseif time <= 0.5 then
-		return S("Digs @1 very fast", group)
-	elseif time <= 0.7 then
-		return S("Digs @1 fast", group)
-	elseif time <= 1.0 then
-		return S("Digs @1 at medium speed", group)
-	elseif time <= 1.5 then
-		return S("Digs @1 slowly", group)
-	elseif time <= 2.0 then
-		return S("Digs @1 very slowly", group)
-	elseif time <= 10.0 then
-		return S("Digs @1 painfully slowly", group)
-	else
-		return S("Digs @1 sluggishly", group)
-	end
-end
-
-local function descriptive_punch_interval(time)
-	if time <= 0 then
-		return S("Instantanous punching")
-	elseif time < 0.5 then
-		return S("Insanely fast punching")
-	elseif time < 0.7 then
-		return S("Very fast punching")
-	elseif time < 0.9 then
-		return S("Fast punching")
-	elseif time < 1.1 then
-		return S("Medium speed punching")
-	elseif time < 1.5 then
-		return S("Slow punching")
-	elseif time < 2.0 then
-		return S("Very slow punching")
-	elseif time < 3.0 then
-		return S("Painfully slow punching")
-	else
-		return S("Sluggish punching")
-	end
-end
-
 local function get_min_digtime(caps)
 	local mintime
 	local unique = true
@@ -156,15 +112,6 @@ tt.register_snippet(function(itemstring)
 			local msg = S("+@1 food points", def._tt_food_hp)
 			desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, msg)
 		end
-		-- NOTE: This is unused atm
-		--[[if def._tt_food_satiation then
-			if def._tt_food_satiation >= 0 then
-				msg = S("+@1 satiation", def._tt_food_satiation)
-			else
-				msg = S("@1 satiation", def._tt_food_satiation)
-			end
-			desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, msg)
-		end]]
 	end
 	return desc, false
 end)

@@ -9,7 +9,6 @@ Add these to the item definition.
 * `_tt_help`: Custom help text
 * `_tt_food`: If `true`, item is a food item that can be consumed by the player
 * `_tt_food_hp`: Health increase (in HP) for player when consuming food item
-* `_tt_food_satiation`: Satiation increase for player when consuming food item (note: the meaning of satiation is depending on the game being used; some games might not have a satiation mechanic at all, in which case you can skip this field)
 
 Once this mod had overwritten the `description` field of an item was overwritten, it will save the original (unaltered) `description` in the `_tt_original_description` field.
 
