@@ -6,6 +6,66 @@ local COLOR_GOOD = "#00ff00"
 tt = {}
 tt.registered_snippets = {}
 
+local function descriptive_dig_speed(time, group)
+	if time <= 0 then
+		return S("Digs @1 instantly", group)
+	elseif time <= 0.35 then
+		return S("Digs @1 insanely fast", group)
+	elseif time <= 0.5 then
+		return S("Digs @1 very fast", group)
+	elseif time <= 0.7 then
+		return S("Digs @1 fast", group)
+	elseif time <= 1.0 then
+		return S("Digs @1 at medium speed", group)
+	elseif time <= 1.5 then
+		return S("Digs @1 slowly", group)
+	elseif time <= 2.0 then
+		return S("Digs @1 very slowly", group)
+	elseif time <= 10.0 then
+		return S("Digs @1 painfully slowly", group)
+	else
+		return S("Digs @1 sluggishly", group)
+	end
+end
+
+local function descriptive_punch_interval(time)
+	if time <= 0 then
+		return S("Instantanous punching")
+	elseif time < 0.5 then
+		return S("Insanely fast punching")
+	elseif time < 0.7 then
+		return S("Very fast punching")
+	elseif time < 0.9 then
+		return S("Fast punching")
+	elseif time < 1.1 then
+		return S("Medium speed punching")
+	elseif time < 1.5 then
+		return S("Slow punching")
+	elseif time < 2.0 then
+		return S("Very slow punching")
+	elseif time < 3.0 then
+		return S("Painfully slow punching")
+	else
+		return S("Sluggish punching")
+	end
+end
+
+local function get_min_digtime(caps)
+	local mintime
+	if caps.times then
+		for r=1,3 do
+			local time = caps.times[r]
+			if caps.maxlevel and caps.maxlevel > 1 then
+				time = time / caps.maxlevel
+			end
+			if (not mintime) or (time and time < mintime) then
+				mintime = time
+			end
+		end
+	end
+	return mintime
+end
+
 local function append_descs()
 	for itemstring, def in pairs(minetest.registered_items) do
 		if itemstring ~= "" and itemstring ~= "air" and itemstring ~= "ignore" and itemstring ~= "unknown" and def ~= nil and def.description ~= nil and def.description ~= "" and def._tt_ignore ~= true then
@@ -17,14 +77,27 @@ local function append_descs()
 			end
 			-- Tool info
 			if def.tool_capabilities then
-				-- Digging stats
+				-- Digging times
+				local digs = ""
+				local d
 				if def.tool_capabilities.groupcaps then
-					-- TODO: Add more detail (such as digging speed)
-					--local groups = {}
-					--for group, caps in pairs(def.tool_capabilities.groupcaps) do
-					--	table.insert(groups, group)
-					--end
-					--desc = desc .. "\n" .. minetest.colorize(COLOR_DEFAULT, S("Digs: @1", table.concat(groups, ", ")))
+					for group, caps in pairs(def.tool_capabilities.groupcaps) do
+						local mintime
+						if caps.times then
+							mintime = get_min_digtime(caps)
+							if mintime and mintime > 0 then
+								d = S("Digs @1 blocks", group) .. "\n"
+								d = d .. S("Minimum dig time: @1", string.format(S("%.2fs"), mintime))
+								digs = digs .. "\n" .. d
+							elseif mintime and mintime == 0 then
+								d = S("Digs @1 blocks instantly", group)
+								digs = digs .. "\n" .. d
+							end
+						end
+					end
+					if digs ~= "" then
+						desc = desc .. minetest.colorize(COLOR_DEFAULT, digs)
+					end
 				end
 				-- Weapon stats
 				if def.tool_capabilities.damage_groups then
