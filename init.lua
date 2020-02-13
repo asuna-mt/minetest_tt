@@ -14,7 +14,8 @@ end
 
 -- Register core snippets
 
-dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets.lua")
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets_core.lua")
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets_builtin.lua")
 
 -- Apply item description updates
 
