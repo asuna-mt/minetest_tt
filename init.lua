@@ -36,9 +36,8 @@ local function append_snippets()
 				if str then
 					if first then
 						first = false
-					else
-						desc = desc .. "\n"
 					end
+					desc = desc .. "\n"
 					if snippet_color then
 						desc = desc .. minetest.colorize(snippet_color, str)
 					else

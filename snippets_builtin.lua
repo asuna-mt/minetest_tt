@@ -27,6 +27,13 @@ local function get_min_digtime(caps)
 	return mintime, unique
 end
 
+local function newline(str)
+	if str ~= "" then
+		str = str .. "\n"
+	end
+	return str
+end
+
 -- Tool information (digging times, weapon stats)
 tt.register_snippet(function(itemstring)
 	local def = minetest.registered_items[itemstring]
@@ -43,10 +50,12 @@ tt.register_snippet(function(itemstring)
 					if mintime and (mintime > 0 or (not unique_mintime)) then
 						d = S("Digs @1 blocks", group) .. "\n"
 						d = d .. S("Minimum dig time: @1s", string.format("%.2f", mintime))
-						digs = digs .. "\n" .. d
+						digs = newline(digs)
+						digs = digs .. d
 					elseif mintime and mintime == 0 then
 						d = S("Digs @1 blocks instantly", group)
-						digs = digs .. "\n" .. d
+						digs = newline(digs)
+						digs = digs .. d
 					end
 				end
 			end
@@ -71,13 +80,15 @@ tt.register_snippet(function(itemstring)
 						msg = S("Healing (@1): @2", group, math.abs(damage))
 					end
 				end
-				desc = desc .. "\n" .. msg
+				desc = newline(desc)
+				desc = desc .. msg
 			end
 			local full_punch_interval = def.tool_capabilities.full_punch_interval
 			if not full_punch_interval then
 				full_punch_interval = 1
 			end
-			desc = desc .. "\n" .. S("Full punch interval: @1s", full_punch_interval)
+			desc = newline(desc)
+			desc = desc .. S("Full punch interval: @1s", full_punch_interval)
 		end
 	end
 	if desc == "" then
@@ -108,50 +119,63 @@ tt.register_snippet(function(itemstring)
 	-- Health-related node facts
 	if def.damage_per_second then
 		if def.damage_per_second > 0 then
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DANGER, S("Contact damage: @1 per second", def.damage_per_second))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DANGER, S("Contact damage: @1 per second", def.damage_per_second))
 		elseif def.damage_per_second < 0 then
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_GOOD, S("Contact healing: @1 per second", math.abs(def.damage_per_second)))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_GOOD, S("Contact healing: @1 per second", math.abs(def.damage_per_second)))
 		end
 	end
 	if def.drowning and def.drowning ~= 0 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DANGER, S("Drowning damage: @1", def.drowning))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DANGER, S("Drowning damage: @1", def.drowning))
 	end
 	local tmp = minetest.get_item_group(itemstring, "fall_damage_add_percent")
 	if tmp > 0 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DANGER, S("Fall damage: +@1%", tmp))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DANGER, S("Fall damage: +@1%", tmp))
 	elseif tmp == -100 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_GOOD, S("No fall damage"))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_GOOD, S("No fall damage"))
 	elseif tmp < 0 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Fall damage: @1%", tmp))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Fall damage: @1%", tmp))
 	end
 
 	-- Movement-related node facts
 	if minetest.get_item_group(itemstring, "disable_jump") == 1 and not def.climbable then
 		if def.liquidtype == "none" then
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("No jumping"))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("No jumping"))
 		else
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("No swimming upwards"))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("No swimming upwards"))
 		end
 	end
 	if def.climbable then
 		if minetest.get_item_group(itemstring, "disable_jump") == 1 then
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Climbable (only downwards)"))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Climbable (only downwards)"))
 		else
-			desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Climbable"))
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Climbable"))
 		end
 	end
 	if minetest.get_item_group(itemstring, "slippery") >= 1 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Slippery"))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Slippery"))
 	end
 	local tmp = minetest.get_item_group(itemstring, "bouncy")
 	if tmp >= 1 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Bouncy (@1%)", tmp))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Bouncy (@1%)", tmp))
 	end
 
 	-- Node appearance
 	tmp = def.light_source
 	if tmp and tmp >= 1 then
-		desc = desc .. "\n" .. minetest.colorize(tt.COLOR_DEFAULT, S("Luminance: @1", tmp))
+		desc = newline(desc)
+		desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("Luminance: @1", tmp))
 	end
 
 
