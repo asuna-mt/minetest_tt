@@ -3,17 +3,21 @@ local S = minetest.get_translator("tt")
 local function get_min_digtime(caps)
 	local mintime
 	local unique = true
-	if caps.maxlevel and caps.maxlevel > 1 then
+	local maxlevel = caps.maxlevel
+	if not maxlevel then
+		maxlevel = 1
+	end
+	if maxlevel > 1 then
 		unique = false
 	end
 	if caps.times then
 		for r=1,3 do
 			local time = caps.times[r]
-			if caps.maxlevel and caps.maxlevel > 1 then
-				time = time / caps.maxlevel
+			if time and maxlevel > 1 then
+				time = time / maxlevel
 			end
-			if (not mintime) or (time and time < mintime) then
-				if time and mintime and (time < mintime) then
+			if time and ((not mintime) or (time < mintime)) then
+				if mintime and (time < mintime) then
 					unique = false
 				end
 				mintime = time
@@ -46,7 +50,7 @@ tt.register_snippet(function(itemstring)
 				local mintime, unique_mintime
 				if caps.times then
 					mintime, unique_mintime = get_min_digtime(caps)
-					if mintime and (mintime > 0 and (not unique_mintime)) then
+					if mintime and (mintime > 0 or (not unique_mintime)) then
 						d = S("Digs @1 blocks", group) .. "\n"
 						d = d .. S("Minimum dig time: @1s", string.format("%.2f", mintime))
 						digs = digs .. "\n" .. d
