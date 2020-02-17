@@ -88,7 +88,7 @@ tt.register_snippet(function(itemstring)
 				full_punch_interval = 1
 			end
 			desc = newline(desc)
-			desc = desc .. S("Full punch interval: @1s", full_punch_interval)
+			desc = desc .. S("Full punch interval: @1s", string.format("%.2f", full_punch_interval))
 		end
 	end
 	if desc == "" then
