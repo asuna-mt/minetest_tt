@@ -18,6 +18,7 @@ Climbable=
 Climbable (only downwards)=
 No jumping=
 No swimming upwards=
+No rising=
 Fall damage: @1%=
 Fall damage: +@1%=
 No fall damage=

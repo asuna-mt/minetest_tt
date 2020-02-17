@@ -147,9 +147,12 @@ tt.register_snippet(function(itemstring)
 		if def.liquidtype == "none" then
 			desc = newline(desc)
 			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("No jumping"))
-		else
+		elseif minetest.get_item_group(itemstring, "fake_liquid") == 0 then
 			desc = newline(desc)
 			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("No swimming upwards"))
+		else
+			desc = newline(desc)
+			desc = desc .. minetest.colorize(tt.COLOR_DEFAULT, S("No rising"))
 		end
 	end
 	if def.climbable then

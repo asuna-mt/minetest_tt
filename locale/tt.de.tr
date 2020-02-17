@@ -18,6 +18,7 @@ Climbable=Erkletterbar
 Climbable (only downwards)=Erkletterbar (nur nach unten)
 No jumping=Kein Springen
 No swimming upwards=Kein nach oben schwimmen
+No rising=Kein Aufsteigen
 Fall damage: @1%=Fallschaden: @1%
 Fall damage: +@1%=Fallschaden: +@1%
 No fall damage=Kein Fallschaden
