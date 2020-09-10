@@ -12,9 +12,7 @@ tt.register_snippet = function(func)
 	table.insert(tt.registered_snippets, func)
 end
 
--- Register core snippets
-
-dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets_core.lua")
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets.lua")
 
 -- Apply item description updates
 
