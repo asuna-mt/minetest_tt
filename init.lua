@@ -1,5 +1,3 @@
-local S = minetest.get_translator("tt")
-
 tt = {}
 tt.COLOR_DEFAULT = "#d0ffd0"
 tt.COLOR_DANGER = "#ffff00"
