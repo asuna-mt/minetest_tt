@@ -8,4 +8,5 @@ games to use the API to define custom tooltips (see `API.md`).
 1.0.0
 
 ## License
-MIT License.
+This mod is free software, released under the MIT License.
+See `LICENSE.txt` for the full text.
