@@ -1,4 +1,4 @@
-# Extended Tooltip (`tt`)
+# Extended Tooltips (`tt`)
 This mod extends the tooltip of items to add more informative texts.
 
 The mod itself does nothing and is meant to be integrated into
