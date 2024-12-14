@@ -22,10 +22,8 @@ Returns: Two values, the first one is required.
 
 Example:
 
-```
-tt.register_snippet(function(itemstring)
-	if minetest.get_item_group(itemstring, "magic") == 1 then
-		return "This item is magic"
-	end
-end)
-```
+    tt.register_snippet(function(itemstring)
+        if minetest.get_item_group(itemstring, "magic") == 1 then
+            return "This item is magic"
+        end
+    end)
